@@ -169,26 +169,48 @@ var sumBelow = function(n) {
 // x + 1 = 5   x 5 y  5 - end
 
 var range = function(x, y) {
+
+    if(y - x === 1 || x - y === 1) {
+    	return [];
+    }
+
+	if (x === y ) {
+		return [];
+	}
+   	if (x < y){
+   		// console.log("y- before: ", y)
+		y = y-1
+		// console.log("y- after: ", y)
+		return range(x,y).concat(y)
+    }
+
+    if (x > y){
+    	// console.log("y+ before: ", y)
+		y = y+1
+		// console.log("y+ after: ", y)
+		return range(x,y).concat(y)
+    }
+
 	//between X & Y
 	// create a new array
 	// push x/y into array
 
-	var newArray = [x];
+// 	var newArray = [x];
 
-	if (x === y){
-	    newArray.slice(1,newArray.length - 1)
-	    //newArray.shift()
-		return newArray;
-	}
-   for(var i = x; i < y; i++){
+// 	if (x === y){
+// 	    newArray.slice(1,newArray.length - 1)
+// 	    //newArray.shift()
+// 		return newArray;
+// 	}
+//    for(var i = x; i < y; i++){
 
-// 	if (x < y) {
- 	    x ++;
+// // 	if (x < y) {
+//  	    x ++;
 	
 	
-		return newArray.concat(range(x,y))
+// 		return newArray.concat(range(x,y))
 
-	}
+// 	}
 
 
 };
@@ -200,22 +222,114 @@ range(2,8)
 // 8^2 = 8 x 8 = 64. Here, 8 is the base and 2 is the exponent.
 // exponent(4,3); // 64
 // https://www.khanacademy.org/computing/computer-science/algorithms/recursive-algorithms/a/computing-powers-of-a-number
+
+// input - 2 numbers - base number and exponant number
+// output - number - base number times it self determined by the exponant number
+// strategy - take the base number and multiply it wiith it self the amount of times the exponant number declares
+
 var exponent = function(base, exp) {
+
+	if(exp === 0){
+		return 1;
+	}else if(exp === 1){
+        return base;
+   }else if(exp < 1){
+		exp ++;
+		return 1 / (base * exponent(base, - exp))
+	}else if(exp > 1){
+		exp --;
+		return base * exponent(base, exp)
+	}
 };
 
 // 8. Determine if a number is a power of two.
 // powerOfTwo(1); // true
 // powerOfTwo(16); // true
 // powerOfTwo(10); // false
+// input - number
+// output - true or false - boolean
+// strategy - 
+// devide the number by 2 until reduce to 1 true, 
+// devide a number by 2 until it is smaller then or not equal to 1 false
+// if number is negative - false
 var powerOfTwo = function(n) {
+
+	if (n < 1){
+
+		return false;
+	}
+
+	if (n === 1){
+		return true;
+	}
+
+	if (n > 1){
+		n = n / 2
+		return powerOfTwo(n)
+	}
 };
 
 // 9. Write a function that reverses a string.
+// input - string
+// output - reversed string
+// strategy - 
+// take the string and reverse it and return it
+// put the string into an array
+// recursion break the string down
+// return it and concat it
+// abc
+// c - ab
+// b - a
+// a - empty
 var reverse = function(string) {
+
+	if (string.length === 0){
+		//stop
+		return string;
+	}
+
+	if (string.length > 0){
+		var singleString = string.substr(string.length-1)
+		var newString = string.slice(0, string.length-1)
+		return singleString.concat(reverse(newString))
+	}
 };
 
 // 10. Write a function that determines if a string is a palindrome.
+// input - word, number
+// output - true false
+// we can compare the 1st and last element
+// if they match continue and remove them
+// stop when the lenght is 1
+// if its a sentence or phrase you can remove the spaces
 var palindrome = function(string) {
+
+
+	if(typeof arguments[0] === 'number'){
+  	string = JSON.stringify(string)
+  }
+
+  string = string.toLowerCase()
+  string = string.trim()
+
+
+  if(typeof arguments[0] === 'string'){
+
+	if(string.length === 1 || string === ""){
+		//stop
+		return true;
+	}
+
+	
+	if(string[0] === string[string.length - 1]){
+		var newString = string.slice(1)
+		newString = newString.slice(0,newString.length - 1)
+		return palindrome(newString)
+	}else return false;
+  }
+
+ 
+
 };
 
 // 11. Write a function that returns the remainder of x divided by y without using the
